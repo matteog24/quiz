@@ -1,33 +1,33 @@
-// input 
-// option 0 = Math, option 1 = General Culture, option 2 = Computer Science
+// code finished for mark 6
 
-// input
+// questions
+// option 0 = Math, option 1 = General Culture, option 2 = Computer Science
 
 // option 0 -> difficulty 0
 const questionsOption0 = [
-  'What is 10/2?', 
-  'What is 30*3?',
-  'What is 12^2?', 
-  'What is the square root of 4?',
-  'What is -12 - 5?'
-];
-    
+    'What is 10/2?', 
+    'What is 30*3?',
+    'What is 12^2?', 
+    'What is the square root of 4?',
+    'What is -12 - 5?'
+  ];
+      
 const avalibleAnswersOption0 = [
-  ['5', '2', '3', '10'],
-  ['14', '82', '90', '20'],
-  ['24', '2', '6', '144'],
-  ['4', '7', '2', '16'],
-  ['17', '-17', '0', '12']
-];
-    
+    ['5', '2', '3', '10'],
+    ['14', '82', '90', '20'],
+    ['24', '2', '6', '144'],
+    ['4', '7', '2', '16'],
+    ['17', '-17', '0', '12']
+  ];
+      
 const correctAnswersOption0 = [
-  0,
-  2,
-  3,
-  2,
-  1
-];
-
+    0,
+    2,
+    3,
+    2,
+    1
+  ];
+  
 // option 0 -> difficulty 1
 const questionsOption0Difficulty1 = [
   'Each of 6 rows has the same number of seats. If there are a total of 42 seats, how many are in each row?',
@@ -231,14 +231,17 @@ const correctAnswersOption2Difficulty2 = [
   3
 ]
 
-
-
+// input
 const input = require('input');
 const avalibleSubject = ['Maths', 'General Culture', 'Computer Science'];
 const avalibleDifficulties = ['Easy', 'Medium', 'Hard'];
-let questions;
-let avalibleAnswers;
-let correctAnswers;
+let questions = [];
+let avalibleAnswers = [];
+let correctAnswers = [];
+let userSubject = '';
+const correct = ['Yes! Bravo!', 'Correct! Keep it up!', 'Well done!', 'Great!'];
+const wrong = ['Incorrect!', 'Wrong! Keep working!', 'Better luck next time!', 'Ops... think twice before answring!'];
+
 
 
 // function
@@ -246,62 +249,78 @@ async function main() {
 
   console.log('\x1b[44m%s\x1b[0m', 'Welcome to Quiz Game! To play, follow the on-screen instructions!')
   console.log()
-  // choosing subject
-  console.log('\x1b[36m%s\x1b[0m', 'Choose the subject');
-  for (let a = 0; a < avalibleSubject.length; a = a + 1) {
-    const currentSubject = avalibleSubject[a];
-    console.log('Option ' + a + '. ' + currentSubject)
-  }
-  const userSubject = await input.readInteger('Your subject choice');
 
 
   // choosing difficulty
   console.log('\x1b[36m%s\x1b[0m', 'Choose the difficulty');
   for (let b = 0; b < avalibleDifficulties.length; b = b + 1) {
     const currentDifficulty = avalibleDifficulties[b];
-    console.log('Option ' + b + '. ' + currentDifficulty)
+    console.log('Option ' + (b + 1) + '. ' + currentDifficulty);
   }
-  const userDifficulty = await input.readInteger('Your difficulty choice');
+  const userDifficulty = (await input.readInteger('Your difficulty choice') - 1);
 
-  let userPoints = 0;
 
+
+  // asking the user if s/he wants to choose the subject
+  console.log('\x1b[44m%s\x1b[0m', 'Type 1 for choosing a subject (5 questions) or 2 if you do not want (15 questions)');
+  const subjectYesOrNo = await input.readInteger('Your choice');
+
+ 
+  if (subjectYesOrNo == '1') {
+    // choosing subject
+    console.log('\x1b[36m%s\x1b[0m', 'Choose the subject');
+    for (let a = 0; a < avalibleSubject.length; a = a + 1) {
+      const currentSubject = avalibleSubject[a];
+      console.log('Option ' + (a + 1) + '. ' + currentSubject);
+    }
+
+    const userSubjectChoice = (await input.readInteger('Your subject choice') - 1);
+    userSubject = userSubjectChoice;
+  }
+
+
+  if (subjectYesOrNo == '2') {
+    console.log('More questions, huh? Show us your skills!');
+    assinging15Questions(userDifficulty);
+
+  }
   // assinging the questions based on the subject
   // userSubject is 0
-  if(userSubject == '0') {
+  else if (userSubject == '0') {
     if (userDifficulty == '0') {
-      questions = questionsOption0
-      avalibleAnswers = avalibleAnswersOption0
-      correctAnswers = correctAnswersOption0
+      questions = questionsOption0;
+      avalibleAnswers = avalibleAnswersOption0;
+      correctAnswers = correctAnswersOption0;
     }
     else if (userDifficulty == '1') {
-      questions = questionsOption0Difficulty1
-      avalibleAnswers = avalibleAnswersOption0Difficulty1
-      correctAnswers = correctAnswersOption0Difficulty1
+      questions = questionsOption0Difficulty1;
+      avalibleAnswers = avalibleAnswersOption0Difficulty1;
+      correctAnswers = correctAnswersOption0Difficulty1;
     }
     else if (userDifficulty == '2') {
-      questions = questionsOption0Difficulty2
-      avalibleAnswers = avalibleAnswersOption0Difficulty2
-      correctAnswers = correctAnswersOption0Difficulty2
+      questions = questionsOption0Difficulty2;
+      avalibleAnswers = avalibleAnswersOption0Difficulty2;
+      correctAnswers = correctAnswersOption0Difficulty2;
     }
-    
+
   }
-  
+
   // userSubject is 1
   else if (userSubject == '1') {
     if (userDifficulty == '0') {
-      questions = questionsOption1
-      avalibleAnswers = avalibleAnswersOption1
-      correctAnswers = correctAnswersOption1
+      questions = questionsOption1;
+      avalibleAnswers = avalibleAnswersOption1;
+      correctAnswers = correctAnswersOption1;
     }
     else if (userDifficulty == '1') {
-      questions = questionsOption1Difficulty1
-      avalibleAnswers = avalibleAnswersOption1Difficulty1
-      correctAnswers = correctAnswersOption1Difficulty1
+      questions = questionsOption1Difficulty1;
+      avalibleAnswers = avalibleAnswersOption1Difficulty1;
+      correctAnswers = correctAnswersOption1Difficulty1;
     }
     else if (userDifficulty == '2') {
-      questions = questionsOption1Difficulty2
-      avalibleAnswers = avalibleAnswersOption1Difficulty2
-      correctAnswers = correctAnswersOption1Difficulty2
+      questions = questionsOption1Difficulty2;
+      avalibleAnswers = avalibleAnswersOption1Difficulty2;
+      correctAnswers = correctAnswersOption1Difficulty2;
     }
 
   }
@@ -309,21 +328,23 @@ async function main() {
   // userSubject is 2
   else if (userSubject == '2') {
     if (userDifficulty == '0') {
-      questions = questionsOption2
-      avalibleAnswers = avalibleAnswersOption2
-      correctAnswers = correctAnswersOption2
+      questions = questionsOption2;
+      avalibleAnswers = avalibleAnswersOption2;
+      correctAnswers = correctAnswersOption2;
     }
     else if (userDifficulty == '1') {
-      questions = questionsOption2Difficulty1
-      avalibleAnswers = avalibleAnswersOption2Difficulty1
-      correctAnswers = correctAnswersOption2Difficulty1
+      questions = questionsOption2Difficulty1;
+      avalibleAnswers = avalibleAnswersOption2Difficulty1;
+      correctAnswers = correctAnswersOption2Difficulty1;
     }
     else if (userDifficulty == '2') {
-      questions = questionsOption2Difficulty2
-      avalibleAnswers = avalibleAnswersOption2Difficulty2
-      correctAnswers = correctAnswersOption2Difficulty2
+      questions = questionsOption2Difficulty2;
+      avalibleAnswers = avalibleAnswersOption2Difficulty2;
+      correctAnswers = correctAnswersOption2Difficulty2;
     }
   }
+
+  let userPoints = 0;
 
   // printing the questions
   for (let i = 0; i < questions.length; i = i + 1) {
@@ -331,40 +352,89 @@ async function main() {
     const currentAvailableAnswers = avalibleAnswers[i];
 
     console.log('\x1b[33m%s\x1b[0m', 'Question');
-    console.log('\x1b[44m%s\x1b[0m',currentQuestion);
+    console.log('\x1b[44m%s\x1b[0m', currentQuestion);
     console.log('\x1b[33m%s\x1b[0m', 'Avalible Answers');
 
     for (let j = 0; j < currentAvailableAnswers.length; j = j + 1) {
       const currentAnswer = currentAvailableAnswers[j];
-      console.log('Option ' + j + '. ' + currentAnswer)
+      console.log('Option ' + (j + 1) + '. ' + currentAnswer);
     }
 
-    const userAnswer = await input.readInteger('Your answer');
+    let userAnswer = (await input.readInteger('Your answer') - 1);
 
+    let a = Math.floor(Math.random() * 4);
     if (userAnswer === correctAnswers[i]) {
-        console.log('\x1b[42m%s\x1b[0m', 'Correct! Keep it up!');
-        // 10 punti e non 1
-        userPoints = userPoints + 10;
+      console.log('\x1b[42m%s\x1b[0m', correct[a]);
+      userPoints = userPoints + 10;
     }
     else {
-      console.log('\x1b[41m%s\x1b[0m', 'Incorrect! Keep working!');
+      console.log('\x1b[41m%s\x1b[0m', wrong[a]);
+      console.log('\x1b[41m%s\x1b[0m', 'The correct option is ' + (correctAnswers[i] + 1))
     }
-    
+
   }
 
-  console.log('\x1b[45m%s\x1b[0m', 'You made ' + userPoints + ' points!')
+  console.log('\x1b[45m%s\x1b[0m', 'You made ' + userPoints + ' points!');
 
-  let percentageOfSuccess = (userPoints * 100) / 50;
-  console.log('\x1b[45m%s\x1b[0m', 'Your percentage is ' + percentageOfSuccess + '%');
-  if (percentageOfSuccess <= 60) {
-      console.log('You could have done better!');
-  }
-  else {
-      console.log('Great job!')
-  }
+  convertMark(userPoints, subjectYesOrNo);
 
-  console.log()
-  console.log('\x1b[32m%s\x1b[0m', 'Type node index.js to play again!')
+  console.log();
+  console.log('\x1b[32m%s\x1b[0m', 'Type node index.js to play again!');
 }
 
-main()
+
+
+
+// other functions
+
+function assinging15Questions(userDifficulty) {
+  if (userDifficulty == '0') {
+    questions.push(...questionsOption0, ...questionsOption1, ...questionsOption2);
+    avalibleAnswers.push(...avalibleAnswersOption0, ...avalibleAnswersOption1, ...avalibleAnswersOption2);
+    correctAnswers.push(...correctAnswersOption0, ...correctAnswersOption1, ...correctAnswersOption2);
+  }
+  else if (userDifficulty == '1') {
+    questions.push(...questionsOption0Difficulty1, ...questionsOption1Difficulty1, ...questionsOption2Difficulty1);
+    avalibleAnswers.push(...avalibleAnswersOption0Difficulty1, ...avalibleAnswersOption1Difficulty1, ...avalibleAnswersOption2Difficulty1);
+    correctAnswers.push(...correctAnswersOption0Difficulty1, ...correctAnswersOption1Difficulty1, ...correctAnswersOption2Difficulty1);
+  }
+  else if (userDifficulty == '2') {
+    questions.push(...questionsOption0Difficulty2, ...questionsOption1Difficulty2, ...questionsOption2Difficulty2);
+    avalibleAnswers.push(...avalibleAnswersOption0Difficulty2, ...avalibleAnswersOption1Difficulty2, ...avalibleAnswersOption2Difficulty2);
+    correctAnswers.push(...correctAnswersOption0Difficulty2, ...correctAnswersOption1Difficulty2, ...correctAnswersOption2Difficulty2);
+  }
+  assignSubjectToQuestions(questions);
+}
+
+function assignSubjectToQuestions(questions) {
+
+}
+
+function convertMark(userPoints, subjectYesOrNo) {
+
+  if (subjectYesOrNo == '2') {
+    percentageOfSuccess = parseInt((userPoints * 100) / 150);
+  }
+  else {
+    percentageOfSuccess = parseInt((userPoints * 100) / 50);
+  }
+
+  console.log('\x1b[45m%s\x1b[0m', 'Your percentage is ' + percentageOfSuccess + '%.');
+  let mark = parseInt((percentageOfSuccess * 8) / 100);
+  console.log('\x1b[45m%s\x1b[0m', 'Your mark is ' + mark + ' out of 8.');
+
+
+  if (userPoints <= 20) {
+    console.log('Did you choose the answers randomly? Please, try harder next time...')
+  }
+  else if (percentageOfSuccess <= 60) {
+    console.log('You could have done better!');
+  }
+  else {
+    console.log('Great job!');
+  }
+
+}
+
+// let the show... begin!
+main();
