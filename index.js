@@ -281,9 +281,9 @@ async function main() {
 
   if (subjectYesOrNo == '2') {
     console.log('More questions, huh? Show us your skills!');
-    assinging15Questions(userDifficulty);
-
+    assinging15Questions(userDifficulty, questions);
   }
+  
   // assinging the questions based on the subject
   // userSubject is 0
   else if (userSubject == '0') {
@@ -345,6 +345,10 @@ async function main() {
   }
 
   let userPoints = 0;
+  let userPointsMaths = 0;
+  let userPointsGC = 0;
+  let userPointsCS = 0;
+  
 
   // printing the questions
   for (let i = 0; i < questions.length; i = i + 1) {
@@ -366,6 +370,15 @@ async function main() {
     if (userAnswer === correctAnswers[i]) {
       console.log('\x1b[42m%s\x1b[0m', correct[a]);
       userPoints = userPoints + 10;
+      if (questions.subject[i] == 'Math') {
+        userPointsMaths = userPointsMaths + 10;
+      }
+      else if (questions.subject[i] == 'General Culture') {
+        userPointsGC = userPointsGC + 10;
+      }
+      else if (questions.subject[i] == 'Computer Science') {
+        userPointsCS = userPointsCS + 10;
+      }
     }
     else {
       console.log('\x1b[41m%s\x1b[0m', wrong[a]);
@@ -374,7 +387,10 @@ async function main() {
 
   }
 
-  console.log('\x1b[45m%s\x1b[0m', 'You made ' + userPoints + ' points!');
+  console.log('\x1b[40m%s\x1b[0m', 'You made ' + userPoints + ' points!');
+   if (subjectYesOrNo == '2') {
+    percentageOfSubjects(userPointsMaths, userPointsGC, userPointsCS);
+  }
 
   convertMark(userPoints, subjectYesOrNo);
 
@@ -387,7 +403,7 @@ async function main() {
 
 // other functions
 
-function assinging15Questions(userDifficulty) {
+function assinging15Questions(userDifficulty, questions) {
   if (userDifficulty == '0') {
     questions.push(...questionsOption0, ...questionsOption1, ...questionsOption2);
     avalibleAnswers.push(...avalibleAnswersOption0, ...avalibleAnswersOption1, ...avalibleAnswersOption2);
@@ -403,14 +419,25 @@ function assinging15Questions(userDifficulty) {
     avalibleAnswers.push(...avalibleAnswersOption0Difficulty2, ...avalibleAnswersOption1Difficulty2, ...avalibleAnswersOption2Difficulty2);
     correctAnswers.push(...correctAnswersOption0Difficulty2, ...correctAnswersOption1Difficulty2, ...correctAnswersOption2Difficulty2);
   }
-  assignSubjectToQuestions(questions);
+
+  questions.subject = [];
+  for (let a = 0; a < 15; a++) {
+    if (a < 5) {
+      questions.subject.push('Math');
+    }
+    else if (a < 10) {
+      questions.subject.push('General Culture');
+    }
+    else if (a < 15) {
+      questions.subject.push('Computer Science');
+    }
+  }
+
 }
 
-function assignSubjectToQuestions(questions) {
-
-}
 
 function convertMark(userPoints, subjectYesOrNo) {
+  let percentageOfSuccess = 0;
 
   if (subjectYesOrNo == '2') {
     percentageOfSuccess = parseInt((userPoints * 100) / 150);
@@ -435,6 +462,18 @@ function convertMark(userPoints, subjectYesOrNo) {
   }
 
 }
+
+function percentageOfSubjects(userPointsMaths, userPointsGC, userPointsCS) {
+  let percentageMaths = parseInt((userPointsMaths * 100) / 50);
+  let percentageGC = parseInt((userPointsGC * 100) / 50);
+  let percentageCS = parseInt((userPointsCS * 100) / 50);
+
+  console.log('\x1b[40m%s\x1b[0m', 'You did ' + userPointsMaths + ' points - ' + percentageMaths + '% - in Math.')
+  console.log('\x1b[40m%s\x1b[0m', 'You did ' + userPointsGC + ' points - ' + percentageGC + '% -  in General Culture.')
+  console.log('\x1b[40m%s\x1b[0m', 'You did ' + userPointsCS + ' points - ' + percentageCS + '% -  in Computer Science.')
+
+}
+
 
 // let the show... begin!
 main();
