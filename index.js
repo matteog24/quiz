@@ -46,7 +46,7 @@ const avalibleAnswersOption0Difficulty1 = [
 ]
 
 const correctAnswersOption0Difficulty1 = [
-1,
+0,
 2,
 3,
 0,
@@ -59,7 +59,7 @@ const questionsOption0Difficulty2 = [
 'Which is the most reasonable estimate for 6 x 379?',
 '_____ feet is 1 cm',
 '5400 divided by 90 is?',
-'What happens to the area of a rectangle when you double the legth of both sides?'
+'What happens to the area of a rectangle when you double the length of both sides?'
 ]
 
 const avalibleAnswersOption0Difficulty2 = [
